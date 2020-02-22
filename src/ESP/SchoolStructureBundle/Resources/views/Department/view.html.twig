@@ -1,0 +1,135 @@
+{% extends "ESPSchoolStructureBundle::layout.html.twig" %}
+
+{% block innerDepartment %}
+ <li class="active dropdown">
+
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Départements <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+            <li>
+                <a href="{{ path('esp_schoolstructure_admin_department_viewAll') }}">Liste des départements</a>
+            </li>
+            <li class="active">
+                <a href="#">Consulter un département</a>
+            </li>
+            <li>
+                <a href="{{ path('esp_schoolstructure_admin_department_create') }}">Ajouter un département</a>
+            </li>
+            <li>
+                <a href="{{ path('esp_schoolstructure_admin_department_viewAll') }}">Modifier un département</a>
+            </li>
+            <li>
+                <a href="{{ path('esp_schoolstructure_admin_department_viewAll') }}">Supprimer un département</a>
+            </li>
+                
+    </ul>
+</li>
+
+{% endblock %}
+
+{% block innerCycle %}
+<li class="dropdown">
+
+<a href="#" class="dropdown-toggle" data-toggle="dropdown"> Cycle <span class="caret"></span></a>
+<ul class="dropdown-menu">
+    <li>
+        <a href="{{ path('esp_user_admin_cycle_viewAll') }}">Liste des Cycles</a>
+    </li>
+    <li>
+        <a href="#">Consulter un cycle</a>
+    </li>
+    <li>
+        <a href="{{ path('esp_user_admin_cycle_create') }}">Ajouter un cycle</a>
+    </li>
+    <li>
+        <a href="{{ path('esp_user_admin_cycle_viewAll') }}">Modifier un cycle</a>
+    </li>
+    <li>
+        <a href="{{ path('esp_user_admin_cycle_viewAll') }}">Supprimer un cycle</a>
+    </li>
+
+</ul>
+</li>
+{% endblock %}
+
+{% block innerClass %}
+<li class="dropdown">
+
+<a href="#" class="dropdown-toggle" data-toggle="dropdown"> Classes <span class="caret"></span></a>
+<ul class="dropdown-menu">
+    <li>
+        <a href="#">Liste des classes</a>
+    </li>
+    <li>
+                        
+        <a href="#">Consulter une classe</a>
+    </li>
+    <li>
+        <a href="#">Ajouter une classe</a>
+    </li>
+    <li>
+        <a href="#">Modifier une classe</a>
+    </li>
+    <li>
+        <a href="#">Supprimer une classe</a>
+    </li>
+
+</ul>
+</li>
+{% endblock %}
+
+{% block innerGroup %}
+<li class="dropdown">
+
+<a href="#" class="dropdown-toggle" data-toggle="dropdown"> Groupes <span class="caret"></span></a>
+<ul class="dropdown-menu">
+    <li>
+        <a href="#">Liste des groupes</a>
+    </li>
+    <li>
+        <a href="#">Consulter un groupe</a>
+    </li>
+    <li>
+        <a href="#">Ajouter un groupe</a>
+    </li>
+    <li>
+        <a href="#">Modifier un groupe</a>
+    </li>
+    <li>
+        <a href="#">Supprimer un groupe</a>
+    </li>
+
+</ul>
+</li>
+{% endblock %}
+
+
+{% block body %}
+    {{ parent() }}
+
+    <h2>Consulter un département</h2>
+
+    <hr>
+    
+    Nom : {{department.name}} <br/>
+    Description : {% if department.description is not null %} {{department.description}} {% else %} aucune {% endif %}<br/>
+
+    Options: 
+    {% if department.departmentOptions is not empty %}
+        {% for departmentOption in department.departmentOptions %}
+            {{departmentOption.name}} {% if not loop.last %}, {% endif %}
+
+        {% endfor %}
+
+    {% else %}
+        aucune
+
+    {% endif %}
+
+    <br/>
+    <br/>
+    <a href="{{path('esp_schoolstructure_admin_department_viewAll')}}" class="btn btn-default">Retourner à la liste </a>    
+    <a href="{{path('esp_schoolstructure_admin_department_update', {'id': department.id})}}" class="btn btn-warning">Modifier </a>
+    <a href="{{path('esp_schoolstructure_admin_department_delete', {'id': department.id})}}" class="btn btn-danger">Supprimer </a>
+
+{% endblock %}
+

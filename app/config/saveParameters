@@ -1,0 +1,19 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: EspPlanning
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: smtp.gmail.com
+    mailer_user: hairstyledic1@gmail.com
+    mailer_password: mt98tapaosirismbo
+    mailer_auth_mode: login
+    mailer_port: 465
+    mailer_encryption: ssl
+    secret: ThisTokenIsNotSoSecretChangeIt
+
+    #parameters for links in order to confirm accounts
+    confirmationStudentAccountLink: http://localhost/EspPlanning/web/app_dev.php/Student/ConfirmAccount/
+    confirmationProfessorAccountLink: http://localhost/EspPlanning/web/app_dev.php/Professor/ConfirmAccount/

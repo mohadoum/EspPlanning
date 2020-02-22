@@ -1,0 +1,187 @@
+<?php
+
+namespace ESP\SchoolStructureBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * LevelClass
+ *
+ * @ORM\Table(name="esp_level_class")
+ * @ORM\Entity(repositoryClass="ESP\SchoolStructureBundle\Repository\LevelClassRepository")
+ */
+class LevelClass
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     */
+    private $name;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ESP\SchoolStructureBundle\Entity\Level", cascade={"persist"}, inversedBy="classes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $level;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ESP\SchoolStructureBundle\Entity\Department", cascade={"persist"}, inversedBy="classes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $department;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ESP\SchoolStructureBundle\Entity\DepartmentOption", cascade={"persist"}, inversedBy="classes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $departmentOption;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ESP\SchoolStructureBundle\Entity\Cycle", cascade={"persist"}, inversedBy="classes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $cycle;
+
+    /**
+     * Get department
+     *
+     * @return Department
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    /**
+     * Set department
+     *
+     * @param string $dept
+     *
+     * @return LevelClass
+     */
+    public function setDepartment($dept)
+    {
+        $this->department = $dept;
+
+        return $this;
+    }
+
+    /**
+     * Get DepartmentOption
+     *
+     * @return DepartmentOption
+     */
+    public function getDepartmentOption()
+    {
+        return $this->departmentOption;
+    }
+
+    /**
+     * Set DepartmentOption
+     *
+     * @param string $opt
+     *
+     * @return LevelClass
+     */
+    public function setDepartmentOption($opt)
+    {
+        $this->departmentOption = $opt;
+
+        return $this;
+    }
+
+    /**
+     * Get Cycle
+     *
+     * @return Cycle
+     */
+    public function getCycle()
+    {
+        return $this->cycle;
+    }
+
+    /**
+     * Set Cycle
+     *
+     * @param string $cycle
+     *
+     * @return LevelClass
+     */
+    public function setCycle($cycle)
+    {
+        $this->cycle = $cycle;
+
+        return $this;
+    }
+
+
+    
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return LevelClass
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set level
+     *
+     * @param \ESP\SchoolStructureBundle\Entity\Level $level
+     *
+     * @return LevelClass
+     */
+    public function setLevel(\ESP\SchoolStructureBundle\Entity\Level $level)
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * Get level
+     *
+     * @return \ESP\SchoolStructureBundle\Entity\Level
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+}

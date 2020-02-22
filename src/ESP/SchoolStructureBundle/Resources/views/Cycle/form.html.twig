@@ -1,0 +1,229 @@
+
+{# {{ form(form) }} #}
+
+
+
+  {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+  {# Les erreurs générales du formulaire. #}
+  
+  {{ form_errors(form) }}
+
+
+  {# Génération manuelle et éclatée : #}
+  {% if form.department is defined %}
+  <div class="form-group">
+    {# Génération du label. #}
+    {{ form_label(form.department, "Département: ", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+
+    {# Affichage des erreurs pour ce champ précis. #}
+    {{ form_errors(form.department) }}
+
+    <div class="col-sm-10">
+      {# Génération de l'input. #}
+      {{ form_widget(form.department, {'attr': {'class': 'form-control'}}) }}
+    </div>
+  </div>
+  {% endif %}
+
+   {% if form.departmentOption is defined %}
+  <div class="form-group">
+    {# Génération du label. #}
+    {{ form_label(form.departmentOption , "Option: ", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+
+    {# Affichage des erreurs pour ce champ précis. #}
+    {{ form_errors(form.departmentOption ) }}
+
+    <div class="col-sm-10">
+      {# Génération de l'input. #}
+      {{ form_widget(form.departmentOption , {'attr': {'class': 'form-control'}}) }}
+    </div>
+  </div>
+  {% endif %}
+
+  {# Génération manuelle et éclatée : #}
+  {% if form.name is defined %}
+  <div class="form-group">
+    {# Génération du label. #}
+    {{ form_label(form.name, "Nom: ", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+
+    {# Affichage des erreurs pour ce champ précis. #}
+    {{ form_errors(form.name) }}
+
+    <div class="col-sm-10">
+      {# Génération de l'input. #}
+      {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if form.description is defined %}
+  {# Idem pour un autre champ. #}
+  <div class="form-group">
+    {{ form_label(form.description, "Description:", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    {{ form_errors(form.description) }}
+    <div class="col-sm-10">
+      {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+    </div>
+  </div>
+
+
+
+  {% endif %}                        
+
+
+  <br>
+  
+  {% if form.delete is defined %}
+    <div class="form-group">
+    <div class="col-sm-10">
+
+        
+          
+         <p>Voulez-vous vraiment supprimer le cycle <em><i>{{cycle.name}}</i></em>?</p>
+
+         <br>
+        <a href="{{path('esp_schoolstructure_admin_cycle_view', {'id': cycle.id})}}" class="btn btn-default">Retourner au profil du cycle</a>
+        {{ form_widget(form.delete, {'attr': {'class': 'btn btn-danger'}}) }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if form.levels is defined %}
+ 
+  
+  <div class="form-group">
+    
+    <div class="col-sm-2">
+    {{ form_label(form.levels, "Niveau(x):", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    </div>
+
+    <div class="col-sm-10">
+
+    {{ form_widget(form.levels) }}
+    <br/>
+    <a href="#" id="add_level" class="btn btn-default">Ajouter un niveau</a>
+    </div>
+  </div> 
+
+  {% endif %}
+    {% if form.save is defined %}
+      <hr>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+        <div class="pull-right">
+              {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+              <a href="{{path('esp_schoolstructure_admin_cycle_viewAll')}}" class="btn btn-default">Retourner à la liste </a>    
+
+        </div>
+        </div>
+      </div>
+      {% endif %}
+{# Génération automatique des champs pas encore écrits.
+     Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+     et tous les champs cachés (type « hidden »). #}
+  {{ form_rest(form) }}
+
+  {# Fermeture de la balise <form> du formulaire HTML #}
+  {{ form_end(form) }}
+
+
+
+{# On charge la bibliothèque jQuery. Ici, je la prends depuis le CDN google
+   mais si vous l'avez en local, changez simplement l'adresse. #}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+var $department = $('#esp_schoolstructurebundle_cycle_department');
+// When department gets selected ...
+$department.change(function() {
+  // ... retrieve the corresponding form.
+  var $form = $(this).closest('form');
+  // Simulate form data, but only include the selected department value.
+  var data = {};
+  data[$department.attr('name')] = $department.val();
+  // Submit data via AJAX to the form's action path.
+  $.ajax({
+    url : $form.attr('action'),
+    type: $form.attr('method'),
+    data : data,
+    success: function(html) {
+      // Replace current option field ...
+      $('#esp_schoolstructurebundle_cycle_departmentOption').replaceWith(
+        // ... with the returned one from the AJAX response.
+        $(html).find('#esp_schoolstructurebundle_cycle_departmentOption')
+      );
+      // option field now displays the appropriate option.
+    }
+  });
+});
+</script>
+
+{# Voici le script en question : #}
+<script type="text/javascript">
+  $(document).ready(function() {
+    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+    var $container = $('div#esp_schoolstructurebundle_cycle_levels');
+
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $container.find(':input').length;
+
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $('#add_level').click(function(e) {
+      addLevel($container);
+
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+
+    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+    if (index == 0) {
+      addLevel($container);
+    } else {
+      // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+      $container.children('div').each(function() {
+        addDeleteLink($(this));
+      });
+    }
+
+    // La fonction qui ajoute un formulaire CategoryType
+    function addLevel($container) {
+      // Dans le contenu de l'attribut « data-prototype », on remplace :
+      // - le texte "__name__label__" qu'il contient par le label du champ
+      // - le texte "__name__" qu'il contient par le numéro du champ
+      var template = $container.attr('data-prototype')
+        .replace(/__name__label__/g, 'Niveau n°' + (index+1))
+        .replace(/__name__/g,        index) 
+      ;
+
+      // On crée un objet jquery qui contient ce template
+      var $prototype = $(template);
+
+      // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+      addDeleteLink($prototype);
+
+      // On ajoute le prototype modifié à la fin de la balise <div>
+      $container.append($prototype);
+
+      // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+      index++;
+    }
+
+    // La fonction qui ajoute un lien de suppression d'une catégorie
+    function addDeleteLink($prototype) {
+      // Création du lien
+      var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a> <br/> <br/> <br/>');
+
+      // Ajout du lien
+      $prototype.append($deleteLink);
+
+      // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
+      $deleteLink.click(function(e) {
+        $prototype.remove();
+
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+      });
+    }
+  });
+</script>

@@ -1,0 +1,133 @@
+esp_user_admin_dashboard:
+    path:      /Admin/Dashboard/
+    defaults:
+        _controller: ESPUserBundle:Student:home
+
+# for creating student by admins
+esp_user_admin_student_create:
+    path:      /Admin/User/Student/Create/
+    defaults:
+        _controller: ESPUserBundle:Student:create
+
+esp_user_student_confirmation:
+    path:    /Student/ConfirmAccount/{confirmationToken}
+    defaults:
+        _controller: ESPUserBundle:Student:confirm
+    
+esp_user_admin_student_update:
+    path:      /Admin/User/Student/Update/{id}
+    defaults:
+        _controller: ESPUserBundle:Student:update
+    requirements:
+        id: \d+
+
+esp_user_admin_student_delete:
+    path:      /Admin/User/Student/Delete/{id}
+    defaults:
+        _controller: ESPUserBundle:Student:delete
+    requirements:
+        id: \d+
+
+esp_user_admin_student_viewAll:
+    path:      /Admin/User/Student/View/
+    defaults:
+        _controller: ESPUserBundle:Student:viewAll
+
+esp_user_admin_student_view:
+    path:      /Admin/User/Student/View/{id}
+    defaults:
+        _controller: ESPUserBundle:Student:view
+    requirements:
+        id: \d+
+
+
+# for handling professor by admins
+
+esp_user_admin_professor_create:
+    path:      /Admin/User/Professor/Create/
+    defaults:
+        _controller: ESPUserBundle:Professor:create
+
+esp_user_professor_confirmation:
+    path:    /Professor/ConfirmAccount/{confirmationToken}
+    defaults:
+        _controller: ESPUserBundle:Professor:confirm
+    
+esp_user_admin_professor_update:
+    path:      /Admin/User/Professor/Update/{id}
+    defaults:
+        _controller: ESPUserBundle:Professor:update
+    requirements:
+        id: \d+
+
+esp_user_admin_professor_delete:
+    path:      /Admin/User/Professor/Delete/{id}
+    defaults:
+        _controller: ESPUserBundle:Professor:delete
+    requirements:
+        id: \d+
+
+esp_user_admin_professor_viewAll:
+    path:      /Admin/User/Professor/View/
+    defaults:
+        _controller: ESPUserBundle:Professor:viewAll
+
+esp_user_admin_professor_view:
+    path:      /Admin/User/Professor/View/{id}
+    defaults:
+        _controller: ESPUserBundle:Professor:view
+    requirements:
+        id: \d+
+
+
+
+# for handling departmentChiefs by admins
+
+esp_user_admin_departmentChief_create:
+    path:      /Admin/User/DepartmentChief/Create/
+    defaults:
+        _controller: ESPUserBundle:DepartmentChief:create
+
+esp_user_admin_departmentChief_createWithId:
+    path:      /Admin/User/DepartmentChief/Create/{id}
+    defaults:
+        _controller: ESPUserBundle:DepartmentChief:create
+    requirements:
+        id: \d+
+
+esp_user_admin_departmentChief_update:
+    path:      /Admin/User/DepartmentChief/Update/
+    defaults:
+        _controller: ESPUserBundle:DepartmentChief:update
+
+
+esp_user_admin_departmentChief_updateWithId:
+    path:      /Admin/User/DepartmentChief/Update/{id}
+    defaults:
+        _controller: ESPUserBundle:DepartmentChief:update
+    requirements:
+        id: \d+
+
+esp_user_admin_departmentChief_delete:
+    path:      /Admin/User/DepartmentChief/Delete/
+    defaults:
+        _controller: ESPUserBundle:DepartmentChief:delete
+
+esp_user_admin_departmentChief_deleteWithId:
+    path:      /Admin/User/DepartmentChief/Delete/{id}
+    defaults:
+        _controller: ESPUserBundle:DepartmentChief:delete
+    requirements:
+        id: \d+
+
+esp_user_admin_departmentChief_viewAll:
+    path:      /Admin/User/DepartmentChief/View/
+    defaults:
+        _controller: ESPUserBundle:DepartmentChief:viewAll
+
+esp_user_admin_departmentChief_view:
+    path:      /Admin/User/DepartmentChief/View/{id}
+    defaults:
+        _controller: ESPUserBundle:DepartmentChief:view
+    requirements:
+        id: \d+

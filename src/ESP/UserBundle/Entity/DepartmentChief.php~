@@ -1,0 +1,110 @@
+<?php
+
+namespace ESP\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * DepartmentChief
+ *
+ * @ORM\Table(name="esp_department_chief")
+ * @ORM\Entity(repositoryClass="ESP\UserBundle\Repository\DepartmentChiefRepository")
+ */
+class DepartmentChief
+{
+
+    /**
+     * @ORM\OneToOne(targetEntity="ESP\UserBundle\Entity\Professor", cascade={"persist"}, inversedBy="departmentChief")
+     */
+    private $professor;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="roles", type="array")
+     */
+    private $roles;
+
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="department", type="string", length=255)
+     */
+    private $department = "Département Génie Informatique" ;
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set roles
+     *
+     * @param array $roles
+     *
+     * @return DepartmentChief
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Get roles
+     *
+     * @return array
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function __construct()
+    {
+        $this->setRoles(array('ROLE_DEPARTMENT_CHIEF'));
+    }
+
+    /**
+     * Set professor
+     *
+     * @param \ESP\UserBundle\Entity\Professor $professor
+     *
+     * @return DepartmentChief
+     */
+    public function setProfessor(\ESP\UserBundle\Entity\Professor $professor = null)
+    {
+        $this->professor = $professor;
+
+        $professor->setDepartmentChief($this);
+
+        return $this;
+    }
+
+    /**
+     * Get professor
+     *
+     * @return \ESP\UserBundle\Entity\Professor
+     */
+    public function getProfessor()
+    {
+        return $this->professor;
+    }
+}

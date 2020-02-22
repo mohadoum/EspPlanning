@@ -1,0 +1,17 @@
+<?php
+
+namespace ESP\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * HeadTeacher
+ *
+ * @ORM\Table(name="esp_head_teacher")
+ * @ORM\Entity(repositoryClass="ESP\UserBundle\Repository\HeadTeacherRepository")
+ */
+class HeadTeacher extends \ESP\UserBundle\Entity\Professor
+{
+    
+}
+

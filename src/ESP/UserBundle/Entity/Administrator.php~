@@ -1,0 +1,16 @@
+<?php
+
+namespace ESP\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Administrator
+ *
+ * @ORM\Table(name="esp_administrator")
+ * @ORM\Entity(repositoryClass="ESP\UserBundle\Repository\AdministratorRepository")
+ */
+class Administrator extends \ESP\UserBundle\Entity\User
+{
+
+}

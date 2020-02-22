@@ -1,0 +1,12 @@
+esp_school_structure:
+    resource: "@ESPSchoolStructureBundle/Resources/config/routing.yml"
+    prefix:   /
+
+esp_user:
+    resource: "@ESPUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+core:
+    resource: "@CoreBundle/Resources/config/routing.yml"
+    prefix:   /
+

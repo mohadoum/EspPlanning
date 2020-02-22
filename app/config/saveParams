@@ -1,0 +1,3 @@
+#parameters for links in order to confirm accounts
+    confirmationStudentAccountLink: https://localhost/EspPlanning/app_dev.php/Student/ConfirmAccount/
+    confirmationProfessorAccountLink: http://localhost/EspPlanning/web/app_dev.php/Professor/ConfirmAccount/

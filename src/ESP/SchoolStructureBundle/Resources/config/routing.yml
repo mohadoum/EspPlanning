@@ -1,0 +1,46 @@
+
+# for creating Department by admins
+esp_schoolstructure_admin_department_create:
+    path:      /Admin/SchoolStructure/Department/Create/
+    defaults:
+        _controller: ESPSchoolStructureBundle:Department:create
+    
+esp_schoolstructure_admin_department_update:
+    path:      /Admin/SchoolStructure/Department/Update/{id}
+    defaults:
+        _controller: ESPSchoolStructureBundle:Department:update
+    requirements:
+        id: \d+
+
+esp_schoolstructure_admin_department_delete:
+    path:      /Admin/SchoolStructure/Department/Delete/{id}
+    defaults:
+        _controller: ESPSchoolStructureBundle:Department:delete
+    requirements:
+        id: \d+
+
+esp_schoolstructure_admin_department_viewAll:
+    path:      /Admin/SchoolStructure/Department/View/
+    defaults:
+        _controller: ESPSchoolStructureBundle:Department:viewAll
+
+esp_schoolstructure_admin_department_view:
+    path:      /Admin/SchoolStructure/Department/View/{id}
+    defaults:
+        _controller: ESPSchoolStructureBundle:Department:view
+    requirements:
+        id: \d+
+
+# for cycles by admins
+
+esp_schoolstructure_admin_level_class_viewAll:
+    path:      /Admin/SchoolStructure/LevelClass/View/
+    defaults:
+        _controller: ESPSchoolStructureBundle:LevelClass:viewAll
+
+esp_schoolstructure_admin_level_class_view:
+    path:      /Admin/SchoolStructure/LevelClass/View/{id}
+    defaults:
+        _controller: ESPSchoolStructureBundle:LevelClass:view
+    requirements:
+        id: \d+

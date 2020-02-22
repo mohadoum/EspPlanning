@@ -1,0 +1,11 @@
+services:
+#    esp_user.example:
+#        class: ESP\UserBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+
+  esp_user.email.mailer:
+      class: ESP\UserBundle\Email\Mailer
+      arguments: 
+        - "@mailer"
+        - {'student': %confirmationStudentAccountLink%, 'professor': %confirmationProfessorAccountLink%}

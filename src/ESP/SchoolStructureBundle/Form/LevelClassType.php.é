@@ -1,0 +1,171 @@
+<?php
+
+namespace ESP\SchoolStructureBundle\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use ESP\SchoolStructureBundle\Form\LevelType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Form\FormInterface;
+use ESP\SchoolStructureBundle\Entity\Department;
+use ESP\SchoolStructureBundle\Entity\Cycle;
+
+class LevelClassType extends AbstractType
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('department', EntityType::class, array(
+            'class'        => 'ESPSchoolStructureBundle:Department',
+            'choice_label' => 'name',
+            'multiple'     => false/*,
+            'placeholder' => ''*/
+        ))
+
+        ->add('name', TextType::class)
+        
+        ->add('save', SubmitType::class);
+
+    
+        $formModifierCycle = function (FormInterface $form, Department $department = null) {
+
+            if($department === null)
+            {
+                $cycles = array();
+            }elseif($department->getDepartmentOptions() === null)
+            {
+                $cycles = $department->getCycles();
+            }else
+            {
+                $cycles = $department->getDepartmentOptions()->first()->getCycles();
+            }
+
+            $form
+            ->add('cycle', EntityType::class, array(
+                'class'        => 'ESPSchoolStructureBundle:Cycle',
+                'choice_label' => 'name',
+                'multiple'     => false,
+                'choices' => $cycles,
+                'required' => false
+            ));
+
+            $builder->get('cycle')->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) use ($formModifierNiveaux) {
+                    // this would be your entity, i.e. Options
+                    $data = $event->getData();              
+    
+                    $formModifierNiveaux($event->getForm(), $data->getCycle());
+                }
+            );
+
+        };
+
+        $formModifierNiveaux = function (FormInterface $form, Cycle $cycle = null) {
+            $niveaux = null === $cycle ? array() : $cycle->getLevels();
+
+            $form
+            ->add('level', EntityType::class, array(
+                'class'        => 'ESPSchoolStructureBundle:Level',
+                'choice_label' => 'name',
+                'multiple'     => false,
+                'choices' => $niveaux,
+                'required' => false
+            ));
+        };
+
+        $formModifier = function (FormInterface $form, Department $department = null) {
+            $departmentOptions = null === $department ? array() : $department->getDepartmentOptions();
+
+            $form
+            ->add('departmentOption', EntityType::class, array(
+                'class'        => 'ESPSchoolStructureBundle:DepartmentOption',
+                'choice_label' => 'name',
+                'multiple'     => false,
+                'choices' => $departmentOptions,
+                'required' => false
+            ));
+
+            $builder->get('departmentOption')->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) use ($formModifierCycle) {
+                    // this would be your entity, i.e. Options
+                    $data = $event->getData();              
+    
+                    $formModifierCycle($event->getForm(), $data->getDepartment());
+                }
+            );
+
+
+            /* for cycles */
+
+            $builder->get('departmentOption')->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) use ($formModifier) {
+                    // It's important here to fetch $event->getForm()->getData(), as
+                    // $event->getData() will get you the client data (that is, the ID)
+
+                    $department = $event->getForm()->getData();
+
+
+                    // since we've added the listener to the child, we'll have to pass on
+                    // the parent to the callback functions!
+                    $formModifier($event->getForm()->getParent(), $department);
+                }
+            );
+        };
+
+        $builder->get('department')->addEventListener(
+            FormEvents::POST_SET_DATA,
+            function (FormEvent $event) use ($formModifier) {
+                // this would be your entity, i.e. Options
+                $data = $event->getForm()->getData();              
+
+                $formModifier($event->getForm(), $data->getDepartment());
+            }
+        );
+
+        $builder->get('department')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                // It's important here to fetch $event->getForm()->getData(), as
+                // $event->getData() will get you the client data (that is, the ID)
+
+                $department = $event->getForm()->getData();
+
+
+                // since we've added the listener to the child, we'll have to pass on
+                // the parent to the callback functions!
+                $formModifier($event->getForm()->getParent(), $department);
+            }
+        );
+
+    }/**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'ESP\SchoolStructureBundle\Entity\LevelClass'
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'esp_schoolstructurebundle_levelclass';
+    }
+
+
+}

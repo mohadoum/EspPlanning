@@ -1,0 +1,125 @@
+
+{# {{ form(form) }} #}
+
+
+
+  {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+  {# Les erreurs générales du formulaire. #}
+  {{ form_errors(form) }}
+  {% if form.registrationNumber is defined %}
+  <div class="form-group">
+    {# Génération du label. #}
+    {{ form_label(form.registrationNumber, "Matricule: ", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+
+    {# Affichage des erreurs pour ce champ précis. #}
+    {{ form_errors(form.registrationNumber) }}
+
+    <div class="col-sm-10">
+      {# Génération de l'input. #}
+      {{ form_widget(form.registrationNumber, {'attr': {'class': 'form-control'}}) }}
+    </div>
+  </div>
+  {% endif %}
+  {# Génération manuelle et éclatée : #}
+  {% if form.firstName is defined %}
+  <div class="form-group">
+    {# Génération du label. #}
+    {{ form_label(form.firstName, "Prénom: ", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+
+    {# Affichage des erreurs pour ce champ précis. #}
+    {{ form_errors(form.firstName) }}
+
+    <div class="col-sm-10">
+      {# Génération de l'input. #}
+      {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if form.lastName is defined %}
+  {# Idem pour un autre champ. #}
+  <div class="form-group">
+    {{ form_label(form.lastName, "Nom:", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    {{ form_errors(form.lastName) }}
+    <div class="col-sm-10">
+      {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+    </div>
+  </div>
+  {% endif %}                        
+
+  {% if form.email is defined %}
+  <div class="form-group">
+    {{ form_label(form.email, "Email:", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    {{ form_errors(form.email) }}
+    <div class="col-sm-10">
+      {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if form.telephone is defined %}
+  <div class="form-group">
+    {{ form_label(form.telephone, "Telephone:", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    {{ form_errors(form.telephone) }}
+    <div class="col-sm-10">
+      {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+    </div>
+  </div>
+  {% endif %}
+
+  <br>
+  
+  {% if form.delete is defined %}
+    <div class="form-group">
+    <div class="col-sm-10">
+
+        
+          
+         <p>Voulez-vous vraiment supprimer le professeur {{professor.name}}?</p>
+
+         <br>
+        <a href="{{path('esp_user_admin_professor_view', {'id': professor.id})}}" class="btn btn-primary">Retourner au profil du professeur </a>
+        {{ form_widget(form.delete, {'attr': {'class': 'btn btn-danger'}}) }}
+    </div>
+  </div>
+  {% endif %}
+
+
+    
+  {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
+  
+  {% if form.save is defined %}
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+    
+          {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+   
+    </div>
+  </div>
+  {% endif %}
+  
+
+  {# Génération automatique des champs pas encore écrits.
+     Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+     et tous les champs cachés (type « hidden »). #}
+  {{ form_rest(form) }}
+
+  {# Fermeture de la balise <form> du formulaire HTML #}
+  {{ form_end(form) }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

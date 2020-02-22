@@ -1,0 +1,21 @@
+{% extends "CoreBundle::layout.html.twig" %}
+
+{% block header %}
+          <div id="header" class="jumbotron">
+            <h1>Bienvenue dans ESP's Planning</h1>
+            <p>
+              Soyez tout le temps informé des évolutions de votre emploi du temps. 
+            </p>
+            <p>
+              <a class="btn btn-primary btn-lg" href="#">
+                Se connecter »
+              </a>
+            </p>
+          </div>
+    {% endblock %}
+    
+{% block body %}
+
+    {#<img src="{{asset('..\..\..\..\..\..\..\web\pictures\emploi.jpg')}}">    #}
+    <img src="{{ asset("../../../../../../../../web/pictures/emploi.jpg") }}">
+{% endblock %}

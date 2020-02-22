@@ -1,0 +1,108 @@
+<?php
+
+namespace ESP\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
+/**
+ * Student
+ *
+ * @ORM\Table(name="esp_student")
+ * @ORM\Entity(repositoryClass="ESP\UserBundle\Repository\StudentRepository")
+ */
+class Student extends \ESP\UserBundle\Entity\User
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="number", type="string", length=30, unique=true)
+     */
+    protected $number;
+   
+    /**
+     * @var string
+     * @Gedmo\Slug(fields={"email","number"})
+     * @ORM\Column(name="confirmation_token", type="string", length=255, nullable=true)
+     */
+    protected $confirmationToken;
+
+
+    /**
+     * Set number
+     *
+     * @param string $number
+     *
+     * @return Student
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get number
+     *
+     * @return string
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * Set confirmationToken
+     *
+     * @param string $confirmationToken
+     *
+     * @return Users
+     */
+    public function setConfirmationToken($confirmationToken)
+    {
+        $this->confirmationToken = $confirmationToken;
+
+        return $this;
+    }
+
+    /**
+     * Get confirmationToken
+     *
+     * @return string
+     */
+    public function getConfirmationToken()
+    {
+        return $this->confirmationToken;
+    }
+
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getFirstName(). " " . $this->getLastName();
+    } 
+
+    public function __construct()
+    {
+        $this->setExpired(false);
+        $this->setEnabled(false);
+        $this->setRoles(array('ROLE_STUDENT'));
+        $this->setPassword('0000');
+    }
+
+    
+}

@@ -1,0 +1,180 @@
+            {% extends "ESPUserBundle::layout.html.twig" %}
+
+            {% block innerStudent %}
+             <li class="dropdown">
+    
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Etudiants <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                            <a href="{{ path('esp_user_admin_student_viewAll') }}">Liste des étudiants</a>
+                    </li>
+                    <li>
+                                    <a href="#">Consulter un étudiant</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('esp_user_admin_student_create') }}">Ajouter un étudiant</a>
+                                </li>
+                                <li>
+                                    <a href="#">Modifier un étudiant</a>
+                                </li>
+                                <li>
+                                    <a href="#">Supprimer un étudiant</a>
+                                </li>
+                            
+                            </ul>
+                            </li>
+                        {% endblock %}
+            {% block innerProfessor %}
+            <li class="dropdown">
+    
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Professeurs <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{{ path('esp_user_admin_professor_viewAll') }}">Liste des professeurs</a>
+                </li>
+                <li>
+                                    <a href="#">Consulter un professeur</a>
+                                </li>
+                <li>
+                    <a href="{{ path('esp_user_admin_professor_create') }}">Ajouter un professeur</a>
+                </li>
+                <li>
+                    <a href="#">Modifier un professeur</a>
+                </li>
+                <li>
+                    <a href="#">Supprimer un professeur</a>
+                </li>
+            
+            </ul>
+            </li>
+            {% endblock %}
+            {% block innerDepartmentChief %}
+            <li class="active dropdown">
+    
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Chefs de départements <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{{ path('esp_user_admin_departmentChief_viewAll') }}">Liste des Chefs de départements</a>
+                </li>
+                <li>
+                                    <a href="#">Consulter un Chef de département</a>
+                                </li>
+                <li>
+                    <a href="{{ path('esp_user_admin_departmentChief_create') }}">Ajouter un Chef de département</a>
+                </li>
+                <li class="active">
+                    <a href="{{ path('esp_user_admin_departmentChief_update') }}">Modifier un Chef de département</a>
+                </li>
+                <li>
+                    <a href="{{ path('esp_user_admin_departmentChief_delete') }}">Supprimer un Chef de département</a>
+                </li>
+            
+            </ul>
+            </li>
+            {% endblock %}
+            {% block innerHeadStudent %}
+            <li class="dropdown">
+    
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Responsable pédagogique <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#">Liste des Responsables pédagogiques</a>
+                </li>
+                <li>
+                                    <a href="#">Consulter un Responsable pédagogique</a>
+                                </li>
+                <li>
+                    <a href="#">Ajouter un Responsable pédagogique</a>
+                </li>
+                <li>
+                    <a href="#">Modifier un Responsable pédagogique</a>
+                </li>
+                <li>
+                    <a href="#">Supprimer un Responsable pédagogique</a>
+                </li>
+            
+            </ul>
+            </li>
+            {% endblock %}
+            {% block innerAdministrator %}
+            <li class="dropdown">
+    
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Administrateurs <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#">Liste des Administrateurs</a>
+                </li>
+                <li>
+                                    <a href="#">Consulter un Administrateur</a>
+                                </li>
+                <li>
+                    <a href="#">Ajouter un Administrateur</a>
+                </li>
+                <li>
+                    <a href="#">Modifier un Administrateur</a>
+                </li>
+                <li>
+                    <a href="#">Supprimer un Administrateur</a>
+                </li>
+            
+            </ul>
+            </li>
+            {% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+    {% if id is not null %}
+        <h2>Modifier un chef de département</h2>
+        <hr>
+        <br>
+        
+        <div class="form-group"> 
+            <div class="col-sm-12">
+                Matricule : {{professor.registrationNumber}} <br/>
+                Nom : {{professor.lastName}} <br/>
+                Prenom : {{professor.firstName}} <br/>
+                Email : {{professor.email}} <br/>
+                Telephone : {{professor.telephone}} <br/>
+                Statut : Chef du {{professor.departmentChief.department}} <br>
+                <br>
+
+            </div>
+        </div>
+        <br>
+        <br>
+        {{ include("ESPUserBundle:DepartmentChief:form.html.twig") }} 
+
+    {% else %}
+        <h2>Modifier un chef de département</h2>
+        <hr>
+
+        {% if depts is not empty %}
+
+        <table class="table table-hover table-bordered">
+                {% for dept in depts %}
+                <tr>
+                    <td> Matricule : {{dept.professor.registrationNumber}} </td>
+                    <td> Nom : {{dept.professor.lastName}} </td>
+                    <td> Prenom : {{dept.professor.firstName}} </td>
+                    <td> Email : {{dept.professor.email}} </td>
+                    <td> Statut : Chef du {{dept.department}} </td>
+                    <td class="text-center">
+                        <a href="{{path('esp_user_admin_departmentChief_updateWithId', {'id': dept.professor.id})}}" class="btn btn-warning"> Modifier </a>
+                    </td>        
+                </tr>
+                {% endfor %}
+        </table>
+        {% else %}  
+
+            <p class="jumbotron">
+                La liste est vide!
+            </p>
+
+        {% endif %}
+        
+    {% endif %}
+
+{% endblock %}
+
+
